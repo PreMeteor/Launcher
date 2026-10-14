@@ -19,6 +19,3 @@ cargo tauri dev     # run it
 cargo tauri build   # make an installer / .app
 ```
 
-The background, logo and app icon are Square Enix artwork, so they are not in this repo. Before you
-build, put `background.webp` and `logo.png` in `ui/assets/`, and generate the icons with
-`cargo tauri icon`.

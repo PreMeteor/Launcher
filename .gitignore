@@ -3,10 +3,3 @@ src-tauri/gen/
 manifest.json
 .DS_Store
 upload.conf
-
-# Square Enix artwork: kept locally, never committed.
-ui/assets/
-publish/news/*.webp
-publish/news/*.png
-publish/news/*.jpg
-src-tauri/icons/
