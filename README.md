@@ -1,5 +1,7 @@
 # XIV 1.0 Launcher
 
+![Launcher](docs/screenshot.webp)
+
 A launcher for FINAL FANTASY XIV 1.23b private servers, for Windows and macOS.
 
 It does three things:
