@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 312">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c3e66"/><stop offset="1" stop-color="#0f1626"/></linearGradient></defs>
+  <rect width="800" height="312" fill="url(#g)"/>
+  <circle cx="640" cy="90" r="160" fill="#c9a24c" opacity=".12"/>
+  <text x="48" y="150" font-family="Times New Roman, serif" font-size="46" fill="#f3e1a8" letter-spacing="3">Welcome to Eorzea</text>
+  <text x="50" y="196" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#d7dcea">Version 1.23b is live on our servers</text>
+</svg>

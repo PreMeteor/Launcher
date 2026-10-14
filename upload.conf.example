@@ -1,0 +1,12 @@
+# Copy to upload.conf (gitignored) and fill in.
+# Spaces keys come from DigitalOcean → API → Spaces Keys (an access key + secret pair;
+# a personal access token for the DO API does not work against the S3 endpoint).
+SPACES_KEY=
+SPACES_SECRET=
+
+# Optional overrides (defaults shown).
+#SPACES_BUCKET=axi
+#SPACES_REGION=sfo3
+#SPACES_PREFIX=ffxiv
+#PATCH_DIR=../patches/ffxiv_patches
+#SERVERS_JSON=servers.json

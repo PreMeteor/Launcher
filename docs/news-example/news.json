@@ -1,0 +1,14 @@
+{
+  "banners": [
+    { "image": "news/welcome.svg", "title": "", "link": "https://example.org/news/welcome" },
+    { "image": "news/maintenance.svg", "title": "", "link": "https://example.org/news/maintenance" }
+  ],
+  "items": [
+    { "date": "10/14/2026", "category": "Maintenance", "title": "All Worlds Maintenance (Oct. 20)", "link": "https://example.org/news/maintenance" },
+    { "date": "10/12/2026", "category": "Important", "title": "Launcher 0.1 released", "link": "https://example.org/news/launcher" },
+    { "date": "10/10/2026", "title": "Gridania aetherytes restored" },
+    { "date": "10/08/2026", "category": "Recovery", "title": "Recovery from lobby connection issues (Oct. 8)" },
+    { "date": "10/05/2026", "title": "Behest battles now available in La Noscea" },
+    { "date": "10/01/2026", "title": "Server population update" }
+  ]
+}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FINAL FANTASY XIV Launcher</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <img class="brand" src="assets/logo-mark.webp" alt="FINAL FANTASY XIV Online">
+    <div class="tools">
+      <label class="server-pick" title="Server">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v5H4zM4 14h16v5H4z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/><circle cx="7.5" cy="16.5" r="1" fill="currentColor"/></svg>
+        <select id="server"></select>
+      </label>
+      <button id="open-settings" class="icon" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4.9a7.5 7.5 0 0 0-2.6-1.5L14 2.4h-4l-.4 2.5A7.5 7.5 0 0 0 7 6.4l-2.4-.9-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-.9a7.5 7.5 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.5 7.5 0 0 0 2.6-1.5l2.4.9 2-3.4Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- News from news.json on the patch server -->
+    <section class="news" id="news">
+      <div class="carousel" id="carousel" hidden>
+        <div class="slides" id="slides"></div>
+        <button class="nav prev" id="prev" aria-label="Previous">&#8249;</button>
+        <button class="nav next" id="next" aria-label="Next">&#8250;</button>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="feed">
+        <span class="feed-label">NEWS</span>
+        <ul class="headlines" id="headlines"></ul>
+      </div>
+      <p class="empty" id="news-empty">No news yet.</p>
+    </section>
+
+    <section class="panel" id="panel">
+      <img class="logo" src="assets/logo-mark.webp" alt="FINAL FANTASY XIV Online">
+
+      <!-- Signed out -->
+      <form id="signin-form" class="view" autocomplete="on">
+        <label>Account
+          <input id="user" name="username" autocomplete="username" spellcheck="false">
+        </label>
+        <label>Password
+          <input id="password" name="password" type="password" autocomplete="current-password">
+        </label>
+        <label class="check"><input id="remember" type="checkbox"> Remember account name</label>
+        <p id="signin-error" class="error" role="alert"></p>
+        <button id="signin" class="cta" type="submit">LOG IN</button>
+        <p class="links"><a href="#" id="to-signup">Create an account</a></p>
+      </form>
+
+      <!-- Creating an account -->
+      <form id="signup-form" class="view" autocomplete="off" hidden>
+        <label>Account
+          <input id="su-user" spellcheck="false">
+        </label>
+        <div class="row">
+          <label>Password
+            <input id="su-password" type="password" autocomplete="new-password">
+          </label>
+          <label>Repeat password
+            <input id="su-repeat" type="password" autocomplete="new-password">
+          </label>
+        </div>
+        <label>E-mail
+          <input id="su-email" type="email" spellcheck="false">
+        </label>
+        <p id="signup-error" class="error" role="alert"></p>
+        <button id="signup" class="cta" type="submit">CREATE ACCOUNT</button>
+        <p class="links"><a href="#" id="to-signin">I already have an account</a></p>
+      </form>
+
+      <!-- Signed in: update, then play -->
+      <div id="ready" class="view" hidden>
+        <p id="status-line" class="st-title"></p>
+        <p id="time-line" class="st-line"></p>
+        <p id="speed-line" class="st-line"></p>
+        <div class="progress"><span id="bar"></span></div>
+        <p id="bytes-line" class="st-line"></p>
+        <p id="play-error" class="error" role="alert"></p>
+        <button id="action" class="cta" disabled>PLAY</button>
+        <p class="links"><span id="account-line"></span> &middot; <a href="#" id="sign-out">Sign out</a></p>
+      </div>
+    </section>
+  </main>
+
+
+  <dialog id="settings">
+    <form method="dialog" id="settings-form">
+      <header class="dlg-head">
+        <h2>Settings</h2>
+        <button value="cancel" class="icon close" formnovalidate aria-label="Close">&times;</button>
+      </header>
+
+      <div class="dlg-body">
+        <h3>Game</h3>
+        <label>Game folder
+          <span class="pick"><input id="s-game-dir" spellcheck="false"><button type="button" class="ghost" data-pick="s-game-dir" data-dir="1">Browse…</button></span>
+        </label>
+        <label id="xivboot-row"><span>Recompiled client <small>(xivboot or its .app)</small></span>
+          <span class="pick"><input id="s-xivboot" spellcheck="false"><button type="button" class="ghost" data-pick="s-xivboot">Browse…</button></span>
+        </label>
+
+        <h3>Updates</h3>
+        <label><span>Patch download folder <small>(empty: the launcher's cache)</small></span>
+          <span class="pick"><input id="s-cache-dir" spellcheck="false"><button type="button" class="ghost" data-pick="s-cache-dir" data-dir="1">Browse…</button></span>
+        </label>
+        <label class="check"><input id="s-keep" type="checkbox"> Keep patches after installing them</label>
+
+        <h3>Servers <small>(besides the ones the patch server lists)</small></h3>
+        <div id="s-servers"></div>
+        <button type="button" id="s-add-server" class="ghost add">+ Add server</button>
+      </div>
+
+      <footer class="dlg-foot">
+        <p id="settings-error" class="error" role="alert"></p>
+        <button value="cancel" class="ghost" formnovalidate>Cancel</button>
+        <button id="s-save" value="save" class="cta small-cta">SAVE</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <template id="server-row">
+    <fieldset class="server">
+      <input data-k="name" placeholder="Name">
+      <input data-k="lobby_host" placeholder="Lobby host" maxlength="19">
+      <input data-k="login_url" placeholder="Sign-in URL" class="wide">
+      <input data-k="signup_url" placeholder="Account creation URL (optional)" class="wide">
+      <button type="button" class="ghost remove">Remove</button>
+    </fieldset>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

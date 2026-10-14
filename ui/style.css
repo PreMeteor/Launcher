@@ -1,0 +1,351 @@
+/* Laid out like the 2019 retail launcher: light top bar, banner and news on the left, the sign-in
+   form straight on the art at the right. The call to action keeps 1.0's red. */
+:root {
+  --ink: #2a2a2a;
+  --ink-2: #4b4b4b;
+  --ink-3: #808080;
+  --date: #b39a5e;
+  --tag: #c8264b;
+  --line: rgba(0, 0, 0, 0.1);
+  --field-line: #d5d5d5;
+  --red: #a81818;
+  --red-hi: #c92a2a;
+  --red-lo: #7a0c0c;
+  --green: #5fc832;
+  --error: #c42b2b;
+  --ok: #2f8a1c;
+  --warn: #a5600a;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --serif: "Times New Roman", Times, serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+
+body {
+  font: 14px/1.4 var(--sans);
+  color: var(--ink);
+  /* The art, washed toward white like retail's so text reads on it; strongest at the far right. */
+  background:
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0.86) 0%,
+      rgba(255, 255, 255, 0.80) 55%,
+      rgba(255, 255, 255, 0.62) 72%,
+      rgba(255, 255, 255, 0.50) 100%),
+    #efece4 url("assets/background.webp") center / cover no-repeat;
+  display: grid;
+  grid-template-rows: 80px 1fr;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* --- top bar ----------------------------------------------------------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 22px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* The full 1.0 logo, trimmed to its art (1128x641). */
+.brand { height: 68px; width: auto; display: block; mix-blend-mode: multiply; }
+
+.tools { display: flex; align-items: center; gap: 14px; }
+
+.server-pick {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 2px 0 10px;
+  border-radius: 17px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink-2);
+}
+.server-pick svg { width: 18px; height: 18px; }
+.server-pick select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%234b4b4b'/%3E%3C/svg%3E") no-repeat right 10px center / 9px 5px;
+  font: 600 13px var(--sans);
+  color: var(--ink);
+  height: 32px;
+  line-height: 32px;
+  padding: 0 28px 0 2px;
+  outline: none;
+  cursor: pointer;
+}
+.server-pick select:disabled { cursor: default; opacity: 0.7; }
+
+button.icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+}
+button.icon svg { width: 26px; height: 26px; }
+button.icon:hover { background: rgba(0, 0, 0, 0.06); }
+
+/* --- main ---------------------------------------------------------------- */
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 64px;
+  padding: 24px 84px 18px 60px;
+  min-height: 0;
+}
+
+/* News: banner carousel, then dated headlines. */
+.news { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+
+.carousel { position: relative; flex: none; aspect-ratio: 800 / 312; margin: 0 26px; }
+.slides { position: absolute; inset: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18); }
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; cursor: default; }
+.slide.on { opacity: 1; }
+.slide[data-link] { cursor: pointer; }
+.slide img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+.slide .caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 18px 12px;
+  font: 700 18px var(--sans);
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+}
+.slide .caption:empty { display: none; }
+.carousel .nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 48px;
+  border: 0;
+  background: none;
+  color: #999;
+  font: 300 40px/1 var(--sans);
+  cursor: pointer;
+  padding: 0;
+}
+.carousel .nav:hover { color: #555; }
+.carousel .prev { left: -28px; }
+.carousel .next { right: -28px; }
+.dots { position: absolute; right: 0; top: -12px; display: flex; gap: 4px; }
+.dots button { width: 14px; height: 3px; padding: 0; border: 0; background: #ccc; cursor: pointer; }
+.dots button.on { background: #333; }
+
+.feed { position: relative; margin: 18px 26px 0; padding-top: 12px; border-top: 1px solid var(--line); min-height: 0; }
+.headlines { max-height: 100%; overflow: hidden; }
+.feed-label {
+  position: absolute;
+  left: -30px;
+  top: 18px;
+  writing-mode: vertical-rl;
+  font: 700 10px var(--sans);
+  letter-spacing: 0.25em;
+  color: #aaa;
+}
+.headlines { list-style: none; margin: 0; padding: 0; }
+.headlines li {
+  display: flex;
+  gap: 12px;
+  padding: 2px 0;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.headlines li[data-link] { cursor: pointer; }
+.headlines li[data-link]:hover .title { text-decoration: underline; }
+.headlines .date { flex: none; color: var(--date); font-variant-numeric: tabular-nums; }
+.headlines .title { overflow: hidden; text-overflow: ellipsis; color: var(--ink); font-weight: 600; }
+.headlines .tag { color: var(--tag); font-weight: 700; margin-right: 4px; }
+.empty { margin: 18px 26px; color: var(--ink-3); font-size: 13px; }
+
+/* Sign-in: straight on the art, no box. */
+.panel { display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; }
+
+/* The logo trimmed to its art (1128x641), shown whole. */
+.logo {
+  display: block;
+  width: 290px;
+  height: auto;
+  margin: 0 auto 12px;
+  mix-blend-mode: multiply;
+}
+
+.view { display: flex; flex-direction: column; gap: 12px; }
+
+label { display: flex; flex-direction: column; gap: 6px; font: 700 13px var(--sans); color: #3a3a3a; }
+label.check { flex-direction: row; align-items: center; gap: 8px; font-weight: 600; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.row label { min-width: 0; }
+.view input:not([type="checkbox"]) { width: 100%; min-width: 0; }
+
+input {
+  height: 42px;
+  font: 15px var(--sans);
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--field-line);
+  border-radius: 2px;
+  padding: 0 14px;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  user-select: text;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus { border-color: #b8a26a; box-shadow: 0 0 0 3px rgba(184, 162, 106, 0.2); }
+input[type="checkbox"] { width: 18px; height: 18px; padding: 0; accent-color: #333; box-shadow: none; }
+
+/* The call to action: retail's big bar, in 1.0's red. */
+button.cta {
+  height: 50px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 3px;
+  background: linear-gradient(var(--red-hi), var(--red) 55%, var(--red-lo));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 8px rgba(122, 12, 12, 0.3);
+  color: #fff;
+  font: 700 22px var(--sans);
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+button.cta:hover:not(:disabled) { filter: brightness(1.1); }
+button.cta:active:not(:disabled) { filter: brightness(0.95); }
+button.cta:disabled { filter: grayscale(0.7) opacity(0.5); cursor: default; }
+button.small-cta { height: 36px; padding: 0 22px; font-size: 14px; margin: 0; }
+
+.links { margin: 6px 0 0; text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.links a { color: #333; text-decoration: underline; text-underline-offset: 2px; }
+.links a:hover { color: #000; }
+
+.error { margin: 0; color: var(--error); font-size: 13px; font-weight: 600; user-select: text; }
+.error:empty { display: none; }
+
+/* Signed in: the patcher, in the same place as the form. */
+#ready { gap: 8px; }
+/* Every line has a fixed one-line slot so nothing below moves while the text changes. */
+.st-title { margin: 0 0 4px; height: 22px; line-height: 22px; font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-title.ok { color: var(--ok); }
+.st-title.warn { color: var(--warn); }
+.st-line { margin: 0; height: 20px; line-height: 20px; font-size: 14px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+#ready .error, #ready .error:empty { display: block; height: 36px; line-height: 18px; overflow: hidden; }
+.progress { height: 14px; margin: 6px 0 2px; background: #ddd; border: 1px solid #c8c8c8; overflow: hidden; }
+.progress span { display: block; height: 100%; width: 0; background: var(--green); transition: width 0.25s linear; }
+
+/* --- settings: the main screen's look, with Cancel/Save pinned to the bottom ---------------- */
+
+dialog {
+  width: min(640px, 92vw);
+  height: min(600px, 88vh);
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+    #efece4 url("assets/background.webp") center / cover no-repeat;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+dialog::backdrop { background: rgba(20, 18, 14, 0.45); }
+dialog form { display: flex; flex-direction: column; height: 100%; }
+
+.dlg-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 22px;
+  padding: 16px 4px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.dlg-head h2 { margin: 0; font: 700 20px var(--sans); letter-spacing: 0.02em; }
+button.close { font: 300 30px/1 var(--sans); color: #555; }
+
+.dlg-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 6px 26px 18px;
+}
+.dlg-body h3 {
+  margin: 12px 0 0;
+  font: 700 11px var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+.dlg-body h3 small { letter-spacing: 0; text-transform: none; font-size: 12px; }
+dialog input:not([type="checkbox"]) { width: 100%; min-width: 0; }
+
+.dlg-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 0 22px;
+  padding: 12px 4px 16px;
+  border-top: 1px solid var(--line);
+}
+.dlg-foot .error { margin-right: auto; }
+.dlg-foot button { height: 42px; }
+.dlg-foot button.cta { min-width: 120px; font-size: 16px; letter-spacing: 0.08em; }
+
+h2 { margin: 0 0 4px; font-size: 18px; }
+small { color: var(--ink-3); font-weight: 400; }
+.pick { display: flex; gap: 8px; }
+.pick input { flex: 1; }
+
+button.ghost {
+  flex: none;
+  font: 700 13px var(--sans);
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--field-line);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  padding: 0 16px;
+  height: 42px;
+  cursor: pointer;
+}
+button.ghost:hover { background: #f4f4f4; }
+button.add { align-self: flex-start; }
+
+fieldset.server {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.6);
+}
+fieldset.server .wide { grid-column: 1 / -1; }
+fieldset.server .remove { grid-column: 2; justify-self: end; height: 32px; font-size: 12px; }
+#s-servers { display: flex; flex-direction: column; gap: 8px; }
